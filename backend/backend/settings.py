@@ -89,24 +89,34 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
+
 import os
 from dotenv import load_dotenv
+import dj_database_url  # Added to use dj_database_url
 from urllib.parse import urlparse
 
 load_dotenv()
 
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+POSTGRES_LOCALLY = False
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
+ENVIRONMENT = os.getenv("ENVIRONMENT", "").lower()
+if ENVIRONMENT == "production" == False:  # Added from the image
+    DATABASES = {
+        'default': dj_database_url.parse(os.getenv('DATABASE_URL'))  # Updated to use dj_database_url
     }
-}
+else:
+    tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': tmpPostgres.path.replace('/', ''),
+            'USER': tmpPostgres.username,
+            'PASSWORD': tmpPostgres.password,
+            'HOST': tmpPostgres.hostname,
+            'PORT': 5432,
+        }
+    }
+
 
 
 # Password validation
