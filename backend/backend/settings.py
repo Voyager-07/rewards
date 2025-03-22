@@ -186,6 +186,14 @@ CORS_ALLOWED_ORIGINS = [
     "https://rewards-production.up.railway.app",  # Railway backend
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://google.com',
+    'http://hostname.example.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:9000'
+    'http://localhost:5173'
+]
+
 CSRF_TRUSTED_ORIGINS = [
     "https://rewards-production.up.railway.app",
     "https://your-frontend-domain.com",
@@ -194,6 +202,8 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["Authorization", "Content-Type", "X-CSRFToken"]
+
+
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "rewards-production.up.railway.app"]
 
