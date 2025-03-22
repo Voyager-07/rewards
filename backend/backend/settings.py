@@ -97,25 +97,17 @@ from urllib.parse import urlparse
 
 load_dotenv()
 
-POSTGRES_LOCALLY = False
-
-ENVIRONMENT = os.getenv("ENVIRONMENT", "").lower()
-if ENVIRONMENT == "production" == False:  # Added from the image
-    DATABASES = {
-        'default': dj_database_url.parse(os.getenv('DATABASE_URL'))  # Updated to use dj_database_url
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
     }
-else:
-    tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': tmpPostgres.path.replace('/', ''),
-            'USER': tmpPostgres.username,
-            'PASSWORD': tmpPostgres.password,
-            'HOST': tmpPostgres.hostname,
-            'PORT': 5432,
-        }
-    }
+}
 
 
 
