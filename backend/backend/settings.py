@@ -181,26 +181,22 @@ AUTHENTICATION_BACKENDS = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',  # Allow frontend in development
+    "http://localhost:5173",  # Local React app
+    "https://your-frontend-domain.com",  # Production frontend domain
+    "https://rewards-production.up.railway.app",  # Railway backend
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False  # Keep this False when using CORS_ALLOWED_ORIGINS
+CSRF_TRUSTED_ORIGINS = [
+    "https://rewards-production.up.railway.app",
+    "https://your-frontend-domain.com",
+]
+
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["Authorization", "Content-Type", "X-CSRFToken"]
 
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS'
-]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "rewards-production.up.railway.app"]
 
-CORS_ALLOW_HEADERS = [
-    'content-type',
-    'authorization',
-    'x-requested-with'
-]
 
 
 
