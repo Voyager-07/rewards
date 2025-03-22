@@ -46,6 +46,13 @@ class LoginView(APIView):
             tokens = get_tokens_for_user(user)
             return Response({'message': 'Login successful', 'tokens': tokens, 'user': UserSerializer(user).data})
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+    def options(self, request, *args, **kwargs):
+        """Handle preflight CORS OPTIONS request."""
+        response = Response()
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        return response
 
 # --------------------------------------
 # Custom Permission: Admin or ReadOnly
