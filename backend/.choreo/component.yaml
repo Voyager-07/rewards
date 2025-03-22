@@ -1,5 +1,5 @@
 # +required The configuration file schema version
-schemaVersion: 1.2
+schemaVersion: 1.0
 
 # +optional Incoming connection details for the component
 endpoints:
@@ -13,7 +13,7 @@ endpoints:
       # +optional Context (base path) of the API that gets exposed via the endpoint.
       basePath: /greeting-service
       # +required Numeric port value that gets exposed via the endpoint
-      port: 8000
+      port: 9090
     # +required Type of traffic that the endpoint is accepting.
     # Allowed values: REST, GraphQL, WS, GRPC, TCP, UDP.
     type: REST
@@ -29,62 +29,15 @@ endpoints:
 
 # +optional Outgoing connection details for the component.
 dependencies:
-  # +optional Defines the connection references from the Internal Marketplace.
-  connectionReferences:
-    # +required Name of the connection.
-    - name: hr-connection
-      # +required service identifer of the dependent component.
-      resourceRef: service:/HRProject/UserComponent/v1/ad088/PUBLIC
-
-# +optional Defines runtime configurations
-configurations:
-  # +optional List of environment variables to be injected into the component.
-  env:
-    # +required Name of the environment variable
-    - name: HR_SERVICE_URL
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required Choreo connection value source
-        connectionRef:
-          # +required Choreo connection name to refer the value from
-          name: hr-connection
-          # +required Choreo connection configuration key to refer the value from
-          key: ServiceURL
-    - name: DB_USER
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-            # +optional display name inside the config form, name will be shown in config form if not specified
-            displayName: DB User
-            # +optional default value is true if not specified
-            required: false
-            # +optional default value is string if not specified
-            # Allowed types - string, number, boolean, secret
-            type: string
-  # +optional List of files to be injected into the component from config form
-  file:
-    # +required name of the file
-    - name: application.yaml
-      # +required path to mount the file at
-      mountPath: /src/resources
-      # +required file type
-      # Supported types - yaml, json and toml
-      type: yaml
-      # +required define keys of the file
-      values:
-        # keys of the file
-        # +required at least one key
-        - name: version
-          # +required value source
-          # Allowed value sources: connectionRef, configForm
-          valueFrom:
-            # +required config form value source
-            configForm:
-              # +optional display name inside the config form, name will be shown in config form if not specified
-              displayName: Version
-              # +optional default value is string if not specified
-              # Allowed types - string, number, boolean, secret, object, array
-              type: number
+  # +optional Defines the service references from the Internal Marketplace.
+  serviceReferences:
+    # +required Name of the service reference.
+    - name: choreo:///apifirst/HRProject/UserComponent/ad088/v1/PUBLIC
+      # +required Name of the connection instance.
+      connectionConfig: 19d2648b-d29c-4452-afdd-1b9311e81412
+      # +required Environment variables injected into the component for connection configuration.
+      env:
+        # +required Key name of the connection configuration.
+        - from: ServiceURL
+          # +required Environment variable injected into the container.
+          to: SERVICE_URL
