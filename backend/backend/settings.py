@@ -196,7 +196,8 @@ CORS_ORIGIN_WHITELIST = [
     'http://hostname.example.com',
     'http://localhost:8000',
     'http://127.0.0.1:9000',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'https://rewards-frontend.up.railway.app'
 ]
 
 
@@ -364,7 +365,7 @@ CORS_ALLOW_HEADERS = [
 
 
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "rewards-production.up.railway.app"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "rewards-production.up.railway.app", "rewards-frontend.up.railway.app"]
 
 
 
