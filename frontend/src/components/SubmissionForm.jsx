@@ -53,7 +53,7 @@ const SubmissionForm = () => {
 
     try {
       const token = localStorage.getItem("accessToken");
-      await axios.post("http://localhost:8000/api/submissions/", formData, {
+      await axios.post("https://rewards-production.up.railway.app/api/submissions/", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
