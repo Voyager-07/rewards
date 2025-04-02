@@ -12,7 +12,7 @@ export default function CompletedTasks() {
         const token = localStorage.getItem("accessToken");
         if (!token) throw new Error("User not authenticated");
 
-        const response = await axios.get("http://127.0.0.1:8000/api/completed-tasks/", {
+        const response = await axios.get("https://rewards-production.up.railway.app/api/completed-tasks/", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
