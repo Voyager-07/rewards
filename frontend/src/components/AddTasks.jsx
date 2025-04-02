@@ -31,7 +31,7 @@ const AddTask = () => {
         return;
       }
 
-      await axios.post('http://localhost:8000/api/app-tasks/', taskData, {
+      await axios.post('https://rewards-production.up.railway.app/api/app-tasks/', taskData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
