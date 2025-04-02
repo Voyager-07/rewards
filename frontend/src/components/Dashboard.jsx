@@ -9,7 +9,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/app-tasks/');
+        const response = await axios.get('https://rewards-production.up.railway.app/api/app-tasks/');
         setTasks(response.data);
       } catch (err) {
         setError('Failed to load tasks');
