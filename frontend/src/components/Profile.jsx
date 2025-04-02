@@ -19,10 +19,10 @@ const Profile = () => {
 
         // Fetch user details & completed tasks in parallel
         const [userResponse, completedTasksResponse] = await Promise.all([
-          axios.get("http://localhost:8000/api/user-profile/", {
+          axios.get("https://rewards-production.up.railway.app/api/user-profile/", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:8000/api/completed-tasks/", {
+          axios.get("https://rewards-production.up.railway.app/api/completed-tasks/", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
