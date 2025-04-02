@@ -37,7 +37,7 @@ export default function TaskSubmissions() {
     try {
       const token = localStorage.getItem("accessToken");
       await axios.patch(
-        `http://localhost:8000/api/submissions/verify/${id}/`,
+        `https://rewards-production.up.railway.app/api/submissions/verify/${id}/`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
