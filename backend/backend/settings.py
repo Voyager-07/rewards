@@ -33,8 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [ 'https://rewards-production.up.railway.app' ]
 
-# Application definition
-
+# Installed apps
 INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.admin',
@@ -47,15 +46,18 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'rest_framework_simplejwt',
+    'whitenoise.runserver_nostatic', 
 ]
 
+# Middleware
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.authentication.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -148,7 +150,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
+MEDIA_URL = 'https://rewards-production.up.railway.app/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -172,11 +178,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-# Static and Media files
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -184,34 +185,188 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-# CORS Configuration
+
 CORS_ALLOWED_ORIGINS = [
-    "https://rewards-frontend.up.railway.app",  # Production frontend domain
+    "http://localhost:5173",  # Local React app
+    "https://your-frontend-domain.com",  # Production frontend domain
+    "https://rewards-production.up.railway.app",  # Railway backend
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://google.com',
+    'http://hostname.example.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:9000',
+    'http://localhost:5173'
+]
+
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://rewards-frontend.up.railway.app",
     "https://rewards-production.up.railway.app",
+    "https://your-frontend-domain.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = [
+    "WWW-Authenticate",
     "Authorization",
-    "Content-Type",
-    "X-CSRFToken",
-    "X-Requested-With",
+    "Proxy-Authenticate",
+    "Proxy-Authorization",
+    "Age",
+    "Cache-Control",
+    "Clear-Site-Data",
+    "Expires",
+    "Pragma",
+    "Warning",
+    "Accept-CH",
+    "Accept-CH-Lifetime",
+    "Sec-CH-UA",
+    "Sec-CH-UA-Arch",
+    "Sec-CH-UA-Bitness",
+    "Sec-CH-UA-Full-Version",
+    "Sec-CH-UA-Full-Version-List",
+    "Sec-CH-UA-Mobile",
+    "Sec-CH-UA-Model",
+    "Sec-CH-UA-Platform",
+    "Sec-CH-UA-Platform-Version",
+    "Content-DPR",
+    "Device-Memory",
+    "DPR",
+    "Viewport-Width",
+    "Width",
+    "Downlink",
+    "ECT",
+    "RTT",
+    "Save-Data",
+    "Last-Modified",
+    "ETag",
+    "If-Match",
+    "If-None-Match",
+    "If-Modified-Since",
+    "If-Unmodified-Since",
+    "Vary",
+    "Connection",
+    "Keep-Alive",
     "Accept",
     "Accept-Encoding",
     "Accept-Language",
+    "Expect",
+    "Max-Forwards",
+    "Cookie",
+    "Set-Cookie",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Credentials",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Methods",
+    "Access-Control-Expose-Headers",
+    "Access-Control-Max-Age",
+    "Access-Control-Request-Headers",
+    "Access-Control-Request-Method",
     "Origin",
+    "Timing-Allow-Origin",
+    "Content-Disposition",
+    "Content-Length",
+    "Content-Type",
+    "Content-Encoding",
+    "Content-Language",
+    "Content-Location",
+    "Forwarded",
+    "X-Forwarded-For",
+    "X-Forwarded-Host",
+    "X-Forwarded-Proto",
+    "Via",
+    "Location",
+    "From",
+    "Host",
     "Referer",
+    "Referrer-Policy",
     "User-Agent",
+    "Allow",
+    "Server",
+    "Accept-Ranges",
+    "Range",
+    "If-Range",
+    "Content-Range",
+    "Cross-Origin-Embedder-Policy",
+    "Cross-Origin-Opener-Policy",
+    "Cross-Origin-Resource-Policy",
+    "Content-Security-Policy",
+    "Content-Security-Policy-Report-Only",
+    "Expect-CT",
+    "Feature-Policy",
+    "Origin-Isolation",
+    "Strict-Transport-Security",
+    "Upgrade-Insecure-Requests",
+    "X-Content-Type-Options",
+    "X-Download-Options",
+    "X-Frame-Options",
+    "X-Permitted-Cross-Domain-Policies",
+    "X-Powered-By",
+    "X-XSS-Protection",
+    "Sec-Fetch-Site",
+    "Sec-Fetch-Mode",
+    "Sec-Fetch-User",
+    "Sec-Fetch-Dest",
+    "Service-Worker-Navigation-Preload",
+    "Last-Event-ID",
+    "NEL",
+    "Ping-From",
+    "Ping-To",
+    "Report-To",
+    "Transfer-Encoding",
+    "TE",
+    "Trailer",
+    "Sec-WebSocket-Key",
+    "Sec-WebSocket-Extensions",
+    "Sec-WebSocket-Accept",
+    "Sec-WebSocket-Protocol",
+    "Sec-WebSocket-Version",
+    "Accept-Push-Policy",
+    "Accept-Signature",
+    "Alt-Svc",
+    "Date",
+    "Early-Data",
+    "Large-Allocation",
+    "Link",
+    "Push-Policy",
+    "Retry-After",
+    "Signature",
+    "Signed-Headers",
+    "Server-Timing",
+    "Service-Worker-Allowed",
+    "SourceMap",
+    "Upgrade",
+    "X-DNS-Prefetch-Control",
+    "X-Firefox-Spdy",
+    "X-Pingback",
+    "X-Requested-With",
+    "X-Robots-Tag",
+    "X-UA-Compatible",
+    "ContentType",
+    "Content-type",
+    "content-type",
+    "contenttype",
+    "contentType",
+
+
+    "accept",
+    "authorization",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+
+    "accept-encoding",
+
+    "Contentype",
 ]
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "rewards-production.up.railway.app",
-    "rewards-frontend.up.railway.app",
-]
+
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "rewards-production.up.railway.app"]
+
+
+
+
