@@ -17,7 +17,7 @@ const SubmissionForm = () => {
           setError("Unauthorized: Please log in first.");
           return;
         }
-        const response = await axios.get("http://localhost:8000/api/pending-tasks/", {
+        const response = await axios.get("https://rewards-production.up.railway.app/api/pending-tasks/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTasks(response.data);
