@@ -186,8 +186,8 @@ AUTHENTICATION_BACKENDS = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Local React app
-    "https://your-frontend-domain.com",  # Production frontend domain
+    # "http://localhost:5173",  # Local React app
+    "https://rewards-frontend.up.railway.app",  # Production frontend domain
     "https://rewards-production.up.railway.app",  # Railway backend
 ]
 
@@ -202,7 +202,7 @@ CORS_ORIGIN_WHITELIST = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://rewards-production.up.railway.app",
-    "https://your-frontend-domain.com",
+    "https://rewards-frontend.up.railway.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
