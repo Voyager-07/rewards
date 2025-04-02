@@ -25,7 +25,7 @@ const App = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:8000/api/user-profile/", {
+        const response = await axios.get("https://rewards-production.up.railway.app/api/user-profile/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         
