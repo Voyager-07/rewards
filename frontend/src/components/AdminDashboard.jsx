@@ -14,7 +14,7 @@ export default function AdminDashboard() {
         const token = localStorage.getItem("accessToken");
         if (!token) throw new Error("Unauthorized: Please log in as an admin.");
 
-        const response = await axios.get("http://localhost:8000/api/app-tasks/", {
+        const response = await axios.get("https://rewards-production.up.railway.app/api/app-tasks/", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
