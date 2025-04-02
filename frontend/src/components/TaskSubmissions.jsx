@@ -18,7 +18,7 @@ export default function TaskSubmissions() {
         if (!token) throw new Error("Unauthorized: Please log in as an admin.");
 
         const response = await axios.get(
-          `http://localhost:8000/api/submissions/task/${taskId}/`,
+          `https://rewards-production.up.railway.app/api/submissions/task/${taskId}/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
