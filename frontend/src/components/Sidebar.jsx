@@ -1,10 +1,11 @@
-import { FaHome, FaUser, FaTasks, FaSignOutAlt, FaPlus } from "react-icons/fa"; 
+import { FaHome, FaUser, FaTasks, FaSignOutAlt, FaPlus, FaSignInAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const Sidebar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -13,22 +14,26 @@ const Sidebar = () => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setIsAdmin(decoded.is_admin); 
+        setIsAdmin(decoded.is_admin);
+        setIsAuthenticated(true);
       } catch (error) {
         console.error("Invalid token:", error);
         localStorage.removeItem("accessToken");
-        navigate("/login");
+        setIsAuthenticated(false);
       }
+    } else {
+      setIsAuthenticated(false);
     }
-  }, [navigate]);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    setIsAuthenticated(false);
     navigate("/login");
   };
 
   return (
-    <div className="w-64 min-h-screen bg-gray-200 p-4  pt-16">
+    <div className="w-64 min-h-screen bg-gray-200 p-4 pt-16">
       <ul className="space-y-4">
         <SidebarItem icon={<FaHome />} text="Home" path="/" location={location} />
         {isAdmin ? (
@@ -42,7 +47,11 @@ const Sidebar = () => {
             <SidebarItem icon={<FaTasks />} text="Tasks" path="/submit" location={location} />
           </>
         )}
-        <SidebarItem icon={<FaSignOutAlt />} text="Logout" onClick={handleLogout} />
+        {isAuthenticated ? (
+          <SidebarItem icon={<FaSignOutAlt />} text="Logout" onClick={handleLogout} />
+        ) : (
+          <SidebarItem icon={<FaSignInAlt />} text="Login" path="/login" location={location} />
+        )}
       </ul>
     </div>
   );
